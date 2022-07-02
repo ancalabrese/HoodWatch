@@ -1,0 +1,17 @@
+hood: #Each hood is a 'hood to watch for (watch out for criminals)
+- name: sshd 
+  enabled: true
+  path: ./test/sshTestData.txt 
+  interval: 3
+  reporting: true #If reporting true specify an endpoint
+  rules: 
+  - name: "Auth failure"
+    description: 'Failed login'
+    regex: '(\A.{3}\s\d{1,2}\s\d{1,2}:\d{1,2}:\d{1,2})\s([^\s]+)\s([^\s]+):\s(Failed password for.* from\s)(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
+    tokens: [date,host,proc,message,address]
+    reporting: true
+  - name: "Max Auth Attempts"
+    description: 'Max auth attempts reached'
+    tokens: [date,host,proc,message,address]
+    regex: '(\A.{3}\s\d{1,2}\s\d{1,2}:\d{1,2}:\d{1,2})\s([^\s]+)\s([^\s]+):\s(Max authentication attempts for.* from\s)(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
+    reporting: false
